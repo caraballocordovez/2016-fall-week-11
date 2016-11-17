@@ -1,0 +1,18 @@
+.axis .tick line{
+    stroke:rgb(150,150,150);
+}
+
+.axis .tick line{
+    stroke-width:.5px;
+}
+
+.state circle{
+    fill:black;
+    stroke:rgb(120,120,120);
+    stroke-width:.5px;
+    fill-opacity:.05;
+}
+.state line{
+    stroke:red;
+    stroke-width:2px;
+}
