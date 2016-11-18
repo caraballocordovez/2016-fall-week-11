@@ -16,7 +16,7 @@ var plot = d3.select('.canvas')
     .attr('transform','translate('+ m.l+','+ m.t+')');
 
 //Random scatter 100 particles across the screen
-var data = [], connections;
+var data = [], connections=[]
 
 for(var i=0; i<50; i++){
     data.push({
@@ -52,3 +52,35 @@ nodes.append('circle').attr('class','inner')
 nodes.append('line').attr('class','velocity')
     .style('stroke',function(d){return d.color})
     .style('stroke-width','1px');
+
+var lines = plot.selectAll(".link")
+    .data(connections)
+    .enter()
+    .append("line").attr("class", "link")
+    .style("stroke", "black")
+    .style('stroke-width','1px');
+
+//define
+
+var charge = d3.forceManyBody()
+    .strength(-5);
+
+var link = d3.forceLink(connections);
+
+var simulation = d3.forceSimulation(data)
+    .force("charge", charge)
+    .force("link", link)
+    .on("tick", function(){
+        nodes
+            .attr("transform",function(d){
+        return "translate("+ d.x+","+ d.y+")"
+         });
+
+    lines
+        .attr("x1", function(d){return d.source.x})
+        .attr("y1", function(d){return d.source.y})
+        .attr("x2", function(d){return d.target.x})
+        .attr("y2", function(d){return d.target.y});
+
+
+    });

@@ -72,7 +72,30 @@ function dataloaded(err, geo, data){
         .attr('cy',function(d){return d.y0})
         .style('fill','red').style('fill-opacity',1);
 
+    
+    var forceY = d3.forceY()
+        .y(function(d){return d.y0});
+
+    var forceX = d3.forceX()
+        .x(function(d){return d.x0});
+
+    var forceCollide = d3.forceCollide()
+        .radius(function(d){return d.r});
+
     //Force simulation
+   var simulation = d3.forceSimulation(states)
+        .force("forceY", forceY)
+        .force("forceX", forceX)
+        .force("collide", forceCollide)
+        .on("tick", function(){
+            nodes.select("circle")
+                .attr('cx',function(d){return d.x})
+                .attr('cy',function(d){return d.y});
+            nodes.select("line")
+                .attr('x2',function(d){return d.x})
+                .attr('y2',function(d){return d.y});
+
+        })
 
 }
 
